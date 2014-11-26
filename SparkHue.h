@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 boolean manageBridgeConnection();
-void sendCommandToHueBridge(char requestBody[]);
+void sendCommandToHueBridge(char requestBody[], char endpoint[]);
 void setBrightness(int brightness);
 void increaseDecreaseBrightness();
 

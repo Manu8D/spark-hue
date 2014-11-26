@@ -4,9 +4,9 @@
 #define TIME_BETWEEN_REQUESTS 100 //max. 10 request/second for bridge
 #define REQUEST_LEN 800
 
-byte bridgeIP[] = { }; // Enter the IP address of your hue bridge
-char bridgeIP_str[] = ""; //same as bridgeIP as char[]
-char bridgeUser[] = ""; // a registered user on your hue bridge
+byte bridgeIP[] = { 10, 0, 1, 2 }; // Enter the IP address of your hue bridge
+char bridgeIP_str[] = "10.0.1.2"; //same as bridgeIP as char[]
+char bridgeUser[] = "newdeveloper"; // a registered user on your hue bridge
 
 void setup() {
     Serial.begin(9600);
@@ -45,13 +45,8 @@ boolean manageBridgeConnection() {
   }
 }
 
-void sendCommandToHueBridge(char requestBody[]) {
+void sendCommandToHueBridge(char requestBody[], char endpoint[]) {
   if (manageBridgeConnection()) {
-    char endpoint[200];
-    sprintf(endpoint, "/api/");
-    strcat(endpoint, bridgeUser);
-    strcat(endpoint, "/lights/1/state");
-
     char request[REQUEST_LEN];
     char smallBuffer[10];
 
@@ -98,7 +93,13 @@ void setBrightness(int brightness) {
   sprintf(requestBody, "%s", "{\"bri\":");
   strcat(requestBody, smallBuffer);
   strcat(requestBody, "}");
-  sendCommandToHueBridge(requestBody);
+
+  char endpoint[200];
+  sprintf(endpoint, "/api/");
+  strcat(endpoint, bridgeUser);
+  strcat(endpoint, "/lights/1/state");
+
+  sendCommandToHueBridge(requestBody, endpoint);
 }
 
 // Example
